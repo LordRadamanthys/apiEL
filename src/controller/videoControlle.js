@@ -19,16 +19,50 @@ module.exports = {
             res.status(400).json({ error: error })
         })
 
+    },
+
+    async get(req, res) {
+        const { id } = req.params
+        if (!id) return res.status(400).json({ error: 'invalid id' })
+
+        const video = await knex('videos').select('*').where('id', id).first()
+
+        if (!video) return res.status(400).json({ error: 'não existe o registro' })
+
+        res.json(formatData(video, 'get'))
+    },
+
+    async getAll(req, res) {
+        const video = await knex('videos').select('*')
+
+        if (!video) return res.status(400).json({ error: 'não existe o registro' })
+
+        res.json(formatData(video, 'getAll'))
     }
 }
 
-function formatUserLogin(data) {
-    return formatUser = {
-        id: data.id,
-        title: data.title,
-        path: `http://192.168.15.11:3333/uploads/videos/${data.path}`,
-        description: data.description,
-        idAuthor: data.idAuthor,
-    }
+function formatData(data, type) {
+    if (type === 'get') {
+        return formatUser = {
+            id: data.id,
+            title: data.title,
+            path: `http://192.168.15.11:3333/uploads/videos/${data.path}`,
+            description: data.description,
+            idAuthor: data.idAuthor,
+        }
+    } else {
+        var newData = []
+        data.map(d => {
+            newData.push({
+                id: d.id,
+                title: d.title,
+                path: `http://192.168.15.11:3333/uploads/videos/${d.path}`,
+                description: d.description,
+                idAuthor: d.idAuthor,
+            })
+        })
 
+        console.log(data)
+        return newData
+    }
 }

@@ -19,17 +19,57 @@ module.exports = {
         }).catch(error => {
             res.status(400).json({ error: error })
         })
-    }
+    },
+
+    async get(req, res) {
+        const { id } = req.params
+        if (!id) return res.status(400).json({ error: 'invalid id' })
+
+        const news = await knex('news').select('*').where('id', id).first()
+
+        if (!news) return res.status(400).json({ error: 'não encontramos essa noticia' })
+
+        return res.json(formatData(news, 'get'))
+    },
+
+    async getAll(req, res) {
+        const news = await knex('news').select('*')
+
+        if (!news) return res.status(400).json({ error: 'sem registros' })
+
+        return res.json(formatData(news, 'getAll'))
+    },
+
 }
 
-function formatUserLogin(data) {
-    return formatUser = {
-        id: data.id,
-        title: data.title,
-        image: `http://192.168.15.11:3333/uploads/newsPics/${data.image}`,
-        description: data.description,
-        text: data.text,
-        idAuthor: data.idAuthor,
+function formatData(data, type) {
+    console.log(data.length)
+    if (type === 'get') {
+        console.log('i')
+        return formatUser = {
+            id: data.id,
+            title: data.title,
+            image: `http://192.168.15.11:3333/uploads/newsPics/${data.image}`,
+            description: data.description,
+            text: data.text,
+            idAuthor: data.idAuthor,
+        }
+
+    } else {
+        var newData = []
+        data.map(d => {
+            newData.push({
+                id: d.id,
+                title: d.title,
+                image: `http://192.168.15.11:3333/uploads/newsPics/${d.image}`,
+                description: d.description,
+                text: d.text,
+                idAuthor: d.idAuthor,
+            })
+        })
+
+        console.log(data)
+        return newData
     }
 
 }

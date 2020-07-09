@@ -29,7 +29,7 @@ module.exports = {
             whatsapp: whatsapp,
             sex: sex
         }).then(response => {
-           
+
             return res.status(200).json(response)
         }).catch(error => {
             return res.status(400).json({ error: error })
@@ -66,7 +66,7 @@ function formatUserLogin(user, token) {
         name: user.name,
         email: user.email,
         password: user.password,
-        image:  `http://192.168.15.11:3333/uploads/profilePics/${user.image}`,
+        image: `http://192.168.15.11:3333/uploads/profilePics/${user.image}`,
         whatsapp: user.whatsapp,
         sex: user.sex,
     }
