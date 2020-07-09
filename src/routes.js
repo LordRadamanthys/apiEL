@@ -5,6 +5,7 @@ const interestsController = require('./controller/interestController')
 const newsController = require('./controller/newsController')
 const videoController = require('./controller/videoControlle')
 const multer = require('multer')
+const auth = require('./middleware/auth')
 const multerConfig = require('./middleware/multer')
 
 routes.post('/login', userController.login)
@@ -15,12 +16,12 @@ routes.get('/videos/:id', videoController.get)
 routes.get('/videos', videoController.getAll)
 
 
-routes.post('/interests', interestsController.create)
-routes.get('/interests/:id', interestsController.get)
-routes.get('/interests', interestsController.getAll)
+routes.post('/interests', auth, interestsController.create)
+routes.get('/interests/:id', auth, interestsController.get)
+routes.get('/interests', auth, interestsController.getAll)
 
-routes.post('/news', multer(multerConfig.uploads('newsPics')).single('image'), newsController.create)
-routes.get('/news/:id', newsController.get)
-routes.get('/news', newsController.getAll)
+routes.post('/news', auth, multer(multerConfig.uploads('newsPics')).single('image'), newsController.create)
+routes.get('/news/:id', auth, newsController.get)
+routes.get('/news', auth, newsController.getAll)
 
 module.exports = routes
