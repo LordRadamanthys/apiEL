@@ -43,9 +43,9 @@ module.exports = {
 }
 
 function formatData(data, type) {
-    console.log(data.length)
+   // console.log(data.length)
     if (type === 'get') {
-        console.log('i')
+       // console.log('i')
         return formatUser = {
             id: data.id,
             title: data.title,
@@ -68,7 +68,7 @@ function formatData(data, type) {
             })
         })
 
-        console.log(data)
+        //console.log(data)
         return newData
     }
 

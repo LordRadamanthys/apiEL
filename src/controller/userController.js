@@ -38,10 +38,10 @@ module.exports = {
 
     async login(req, res) {
         var { email, password } = req.body
-        email = email.toLowerCase()
+        
         if (!email || email === '') return res.status(401).json({ error: 'Email ivalido' })
         if (!password || password === '') return res.status(401).json({ error: 'password ivalido' })
-
+        email = email.toLowerCase()
         var user = await knex('users').select().where('email', email).first()
         if (!user) return res.status(400).json({ error: 'Usuario não encontrado' })
 
@@ -62,7 +62,7 @@ module.exports = {
 function formatUserLogin(user, token) {
     return formatUser = {
         id: user.id,
-        toke: token,
+        token: token,
         name: user.name,
         email: user.email,
         password: user.password,
