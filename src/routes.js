@@ -10,6 +10,9 @@ const multerConfig = require('./middleware/multer')
 
 routes.post('/login', userController.login)
 routes.post('/user', multer(multerConfig.uploads('profilePics')).single('image'), userController.create)
+routes.put('/user',auth, multer(multerConfig.uploads('profilePics')).single('image'), userController.update)
+routes.get('/user/:id',auth, userController.get)
+routes.get('/user/',auth, userController.getAll)
 
 routes.post('/videos', multer(multerConfig.uploads('videos')).single('video'), videoController.create)
 routes.get('/videos/:id', videoController.get)
