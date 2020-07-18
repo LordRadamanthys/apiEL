@@ -21,7 +21,7 @@ routes.get('/videos', videoController.getAll)
 
 routes.post('/interests', auth, interestsController.create)
 routes.get('/interests/:id', auth, interestsController.get)
-routes.get('/interests', auth, interestsController.getAll)
+routes.get('/interests', interestsController.getAll)
 
 routes.post('/news', auth, multer(multerConfig.uploads('newsPics')).single('image'), newsController.create)
 routes.get('/news/:id', auth, newsController.get)
