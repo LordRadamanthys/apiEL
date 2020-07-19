@@ -10,7 +10,7 @@ module.exports = {
 
                 destination: path.resolve(__dirname, '..', 'uploads', local),
                 filename(req, file, callback) {
-
+                    //if(!req.image) return new Error('Imagem não veio')
                     const hash = crypto.randomBytes(6).toString('hex')
 
                     const fileName = `${hash}_${file.originalname}`

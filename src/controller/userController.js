@@ -8,6 +8,13 @@ const { use } = require('../routes')
 module.exports = {
     async create(req, res) {
         var { name, password, email, whatsapp, sex, interests } = req.body
+        if (!name || name === '' || name === undefined) return res.status(400).json({ error: 'Nome não pode ser vazio' })
+        if (!password || password === ''|| password === undefined) return res.status(400).json({ error: 'Senha não pode ser vazio' })
+        if (!email || email === ''|| email === undefined) return res.status(400).json({ error: 'E-mail não pode ser vazio' })
+        if (!whatsapp || whatsapp === ''|| whatsapp === undefined) return res.status(400).json({ error: 'Whatsapp não pode ser vazio' })
+        if (!sex || sex === ''|| sex === undefined) return res.status(400).json({ error: 'Sexo não pode ser vazio' })
+        if (!req.file || req.file.filename === '' ) return res.status(400).json({ error: 'Imagem não pode ser vazio' })
+
         var hashPassword
         name = name.toLowerCase()
         email = email.toLowerCase()
@@ -48,6 +55,7 @@ module.exports = {
         await trx('user_interest').insert(interestItems)
         trx.commit()
         res.json(user)
+        console.log(user)
         // await knex('users').insert({
         //     name: name,
         //     password: hashPassword,
