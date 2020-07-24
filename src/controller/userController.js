@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcryptjs = require('bcrypt')
 const authConfig = require('../config/hash.json')
 const { use } = require('../routes')
+const constats = require('../config/constants')
 
 
 module.exports = {
@@ -154,7 +155,7 @@ function formatUserLogin(user, token) {
         name: user.name,
         email: user.email,
         password: user.password,
-        image: `http://192.168.15.7:3333/uploads/profilePics/${user.image}`,
+        image: `${constats.IP_SERVER()}:3333/uploads/profilePics/${user.image}`,
         whatsapp: user.whatsapp,
         sex: user.sex,
     }

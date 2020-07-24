@@ -1,4 +1,5 @@
 const knex = require('../database/connections')
+const constats = require('../config/constants')
 
 module.exports = {
     async create(req, res) {
@@ -49,7 +50,7 @@ function formatData(data, type) {
         return formatUser = {
             id: data.id,
             title: data.title,
-            image: `http://192.168.15.7:3333/uploads/newsPics/${data.image}`,
+            image: `${constats.IP_SERVER()}:3333/uploads/newsPics/${data.image}`,
             description: data.description,
             text: data.text,
             idAuthor: data.idAuthor,
@@ -61,14 +62,14 @@ function formatData(data, type) {
             newData.push({
                 id: d.id,
                 title: d.title,
-                image: `http://192.168.15.7:3333/uploads/newsPics/${d.image}`,
+                image: `${constats.IP_SERVER()}:3333/uploads/newsPics/${d.image}`,
                 description: d.description,
                 text: d.text,
                 idAuthor: d.idAuthor,
             })
         })
 
-        //.log(newData)
+      //  console.log(constats.IP_SERVER())
         return newData
     }
 
