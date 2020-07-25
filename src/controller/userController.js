@@ -8,7 +8,7 @@ const constats = require('../config/constants')
 
 module.exports = {
     async create(req, res) {
-        var { name, password, email, whatsapp, sex, interests } = req.body
+        var { name, password, email, whatsapp, sex, interests, instagram } = req.body
         if (!name || name === '' || name === undefined) return res.status(400).json({ error: 'Nome não pode ser vazio' })
         if (!password || password === ''|| password === undefined) return res.status(400).json({ error: 'Senha não pode ser vazio' })
         if (!email || email === ''|| email === undefined) return res.status(400).json({ error: 'E-mail não pode ser vazio' })
@@ -38,6 +38,7 @@ module.exports = {
             image: req.file.filename ? req.file.filename : '',
             email: email,
             whatsapp: whatsapp,
+            instagram: !instagram ? '' : instagram.toLowerCase() ,
             sex: sex
         }
 
@@ -73,7 +74,7 @@ module.exports = {
     },
 
     async update(req, res) {
-        var { name, password, whatsapp } = req.body
+        var { name, password, whatsapp,instagram } = req.body
         // console.log(whatsapp)
         const user = await knex('users').select('*').where('id', req.userId).first()
 
@@ -96,7 +97,7 @@ module.exports = {
             name: name ? name : user.name,
             password: password ? hashPassword : user.password,
             image: req.file.filename ? req.file.filename : user.image,
-            //email: email,
+            instagram: instagram,
             whatsapp: whatsapp ? whatsapp : use.whatsapp,
             // sex: sex
         }).where('id', req.userId).then(response => {
@@ -154,6 +155,7 @@ function formatUserLogin(user, token) {
         token: token,
         name: user.name,
         email: user.email,
+        instagram: user.instagram,
         password: user.password,
         image: `${constats.IP_SERVER()}:3333/uploads/profilePics/${user.image}`,
         whatsapp: user.whatsapp,
