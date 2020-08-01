@@ -10,11 +10,11 @@ module.exports = {
     async create(req, res) {
         var { name, password, email, whatsapp, sex, interests, instagram } = req.body
         if (!name || name === '' || name === undefined) return res.status(400).json({ error: 'Nome não pode ser vazio' })
-        if (!password || password === ''|| password === undefined) return res.status(400).json({ error: 'Senha não pode ser vazio' })
-        if (!email || email === ''|| email === undefined) return res.status(400).json({ error: 'E-mail não pode ser vazio' })
-        if (!whatsapp || whatsapp === ''|| whatsapp === undefined) return res.status(400).json({ error: 'Whatsapp não pode ser vazio' })
-        if (!sex || sex === ''|| sex === undefined) return res.status(400).json({ error: 'Sexo não pode ser vazio' })
-        if (!req.file || req.file.filename === '' ) return res.status(400).json({ error: 'Imagem não pode ser vazio' })
+        if (!password || password === '' || password === undefined) return res.status(400).json({ error: 'Senha não pode ser vazio' })
+        if (!email || email === '' || email === undefined) return res.status(400).json({ error: 'E-mail não pode ser vazio' })
+        if (!whatsapp || whatsapp === '' || whatsapp === undefined) return res.status(400).json({ error: 'Whatsapp não pode ser vazio' })
+        if (!sex || sex === '' || sex === undefined) return res.status(400).json({ error: 'Sexo não pode ser vazio' })
+        if (!req.file || req.file.filename === '') return res.status(400).json({ error: 'Imagem não pode ser vazio' })
 
         var hashPassword
         name = name.toLowerCase()
@@ -38,7 +38,7 @@ module.exports = {
             image: req.file.filename ? req.file.filename : '',
             email: email,
             whatsapp: whatsapp,
-            instagram: !instagram ? '' : instagram.toLowerCase() ,
+            instagram: !instagram ? '' : instagram.toLowerCase(),
             sex: sex
         }
 
@@ -53,38 +53,18 @@ module.exports = {
                     interestId: item_id,
                 }
             })
-        // console.log(interestItems)
         await trx('user_interest').insert(interestItems)
         trx.commit()
         res.json(user)
-        console.log(user)
-        // await knex('users').insert({
-        //     name: name,
-        //     password: hashPassword,
-        //     image: req.file.filename ? req.file.filename : '',
-        //     email: email,
-        //     whatsapp: whatsapp,
-        //     sex: sex
-        // }).then(response => {
-
-        //     return res.status(200).json(response)
-        // }).catch(error => {
-        //     return res.status(400).json({ error: error })
-        // })
     },
 
     async update(req, res) {
-        var { name, password, whatsapp,instagram } = req.body
-        // console.log(whatsapp)
+        var { name, password, whatsapp, instagram } = req.body
         const user = await knex('users').select('*').where('id', req.userId).first()
-
 
         var hashPassword
         name = name.toLowerCase()
 
-
-        // const user = await knex('users').select('*').where('email', email).first()
-        // if (user) return res.status(400).json({ error: 'Usuario ja existe' })
         if (password) {
             await bcryptjs.hash(password, 4).then(response => {
                 hashPassword = response
